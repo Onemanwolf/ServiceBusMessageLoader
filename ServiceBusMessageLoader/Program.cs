@@ -17,7 +17,7 @@ ServiceBusSender sender = client.CreateSender(queueName);
 
 
 IList<ServiceBusMessage> messages = new List<ServiceBusMessage>();
-for (int i = 0; i < 100; i++)
+for (int i = 0; i < 500; i++)
 {
     messages.Add(new ServiceBusMessage("{MessageId: " + i + "}"));
 }
