@@ -1,8 +1,16 @@
-﻿using System.Security.AccessControl;
-using Azure.Messaging.ServiceBus;
+﻿using Azure.Messaging.ServiceBus;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
-string connectionString = "";
-string queueName = "myqueue";
+IConfiguration _config = new ConfigurationBuilder()
+    .AddUserSecrets(Assembly.GetExecutingAssembly(), true)
+    .AddEnvironmentVariables()
+    .Build();
+//Use user secrets to store the connection string run the following command in the terminal
+//dotnet user-secrets init
+//dotnet user-secrets set "ConnectionString" "add your connection string here"
+string connectionString = _config["ConnectionString"];
+string queueName = _config["QueueName"]; //"myqueue";
 await using var client = new ServiceBusClient(connectionString);
 ServiceBusSender sender = client.CreateSender(queueName);
 // since ServiceBusClient implements IAsyncDisposable we create it with "await using"
